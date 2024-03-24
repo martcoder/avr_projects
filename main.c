@@ -4,11 +4,11 @@
 
 // then send to mcu using: avrdude -C avrdude.conf -p t85 -c usbasp -U flash:w:a.hex:i
 
-#include <stdio.h>
-#include <stdlib.h>
+//#include <stdio.h>
+//#include <stdlib.h>
 
-#define DDRB (*(volatile unsigned char*) 0x17)
-#define PORTB (*(volatile unsigned char*) 0x18)
+#define DDRB (*(volatile unsigned char*) 0x37)
+#define PORTB (*(volatile unsigned char*) 0x38)
 
 
 
@@ -21,16 +21,18 @@ void delay(volatile long time){
 
 int main()
 {
-    DDRB = 1 << 1;
+    DDRB |= (1 << 1); // sets portb to be an output pin...
     while(1)
     {	
 	
 		
-		PORTB |= 1 << 1; // set PB1 to be HIGH
-		delay(50000); // wait for human seeability
+		/*PORTB |= (1 << 1); // set PB1 to be HIGH
+		delay(20000); // wait for human seeability
 		
 		PORTB &= ~(1 << 1); 
-		delay(50000);
-
+		delay(20000);*/
+		
+		PORTB ^= (1 << 1); // TOGGLE PORTB at position 1 (where positions start from 0). 
+		delay(40000);
     }
 }
